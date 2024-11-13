@@ -11,7 +11,7 @@
         
       }
     .innerbox{
-      background:url("background.png")center center; 
+      background:url("background5.png")center center; 
       background-size: cover;   position:relative;
       width:1359px; height:580px; 
     }
@@ -34,12 +34,20 @@
       .right{ position:absolute; right:0; top:0; width:197px; height:580px;}
     #imgFile{  display:none;  }
     label{
-      display:block; width:120px; height:30px; background:#3498bb; color:#fff;
+      display:block; width:120px; height:30px; color:#fff;
       border-radius:6px; text-align:center; line-height:30px; cursor:pointer;
-      margin-bottom:10px; 
+      margin:44px 0 0 38px; 
     }
-    .left>.diagram{ width:124px; height:118px; position:relative; top:135px; left:50%; transform: translateX(-50%);}
-    .left>.diagram>button{ position:absolute; top:0; margin-left:49px; transform-origin:50% 55px; cursor:pointer; }
+    .left>.diagram{
+       width:124px; height:118px; position:relative; top:36px; left:50%;
+        transform: translateX(-50%);
+      }
+    .left>.diagram>button{
+       position:absolute; top:0; margin-left:49px; transform-origin:50% 55px; cursor:pointer; 
+      }
+    .left>.diagram>button:active{
+      transform: scale(0.98); 
+    }
     .right>.btns{
       position:relative; top:95px; left:17px;
       width:160px; height:160px;
@@ -49,26 +57,32 @@
       width:20px; height:20px; cursor:pointer; border-radius:50%; 
       
     }
+    .right>.btns>button:active{
+      transform: scale(0.98); 
+    }
     /*버튼*/
     #reset{ border:0px; background:none; position:absolute; top:2px; left:63px;}
-    #save{ border:0px; background:none; position:absolute; top:43px; left:109px;}
-    #download{ border:0px; background:none; position:absolute; top:85px; right:76px;}
-    #eraser{ border:0px; background:none; position:absolute; top:43px; right:122px;}
+    #save{ border:0px; background:none; position:absolute; top:56px; left:98px;}
+    #eraser{ border:0px; background:none; position:absolute; top:56px; right:113px;}
     /*도형*/
     #circle{ border:0px; background:none;}
     #square{ border:0px; background:none; transform:rotate(90deg) ; padding-left:8px;}
     #pen{ border:0px; background:none; transform:rotate(180deg) ;}
     #triangle{ border:0px; background:none; position:absolute; top:43px; right:87px;}
 
-  .color-picker{ margin-top:80px; display:flex; flex-direction:row; justify-content: center; align-items: center;}
+  .color-picker{
+     margin-top:117px; display:flex; flex-direction:row;
+      justify-content: center; align-items: center;
+      gap:7px;
+    }
   .color-picker>div{
     width:80px; height:auto; box-sizing: border-box;
     padding:0 10px; display:flex; flex-direction: column;  
     justify-content: center; align-items: center;
   }
   .color-picker>div>input{ display:flex; }
-  .color-picker>div>p{ font-size:11px; text-align: center;}
-  #strokeW{ margin:30px 0 0 30px;}
+  .color-picker>div>p{ font-size:11px; text-align: center; margin-top:-0.1px; color:#ccc;}
+  #strokeW{ margin:140px 0 0 32px;}
   </style>
 </head>
 <body>
@@ -85,6 +99,14 @@
         <span data-color="black"></span>
         <span data-color="white"></span>
       </div>
+      <div class="color-picker">
+        <div class="line">
+          <input type="color" id="strokeColor" value="#000000"><p>선 색상</p>
+        </div>
+        <div class="fill">
+          <input type="color" id="fillColor" value="#ffffff"><p>채우기 색상</p>
+        </div>
+      </div>
       <div class="diagram">
         <button data-shape="circle" id="circle"><img src="img/circle.png" alt=""></button>
         <button data-shape="rect" id="square"><img src="img/square.png" alt=""></button>
@@ -98,24 +120,18 @@
       <div class="btns">
         <button id="reset"><img src="img/reset.png" alt=""></button>
         <button id="save"><img src="img/save.png" alt=""></button>
-        <button id="download"><img src="img/download.png" alt=""></button>
+        <!--<button id="download"><img src="img/download.png" alt=""></button>-->
         <button id="eraser"><img src="img/eraser.png" alt=""></button>
       </div>
-      <div class="color-picker">
-        <div class="line">
-          <input type="color" id="strokeColor" value="#000000"><p>선 색상</p>
-          </div>
-        <div class="fill">
-          <input type="color" id="fillColor" value="#ffffff"><p>채우기 색상</p>
-          </div>
+      
         
-      </div>
+        
+      
       <input type="range" id="strokeW" min="1" max="9" value="4">
-      <!--
         <div>
           <input type="file" id="imgFile" accept="image/*">
           <label for="imgFile">Image Search</label>
-        </div>-->
+        </div>
       </div>
       </div>
   <script>
@@ -182,8 +198,10 @@
     ctx.stroke();
   }
 }
+
 let canvasStates = [];
 let currentCanvasState = null;
+
 // redrawShapes 함수 수정
 function redrawShapes() {
   if (currentCanvasState) {
@@ -370,7 +388,7 @@ shapeButtons.forEach(button => {
     }
     saveBtn.addEventListener('click', saveImage );
 
-    const imgInput = document.querySelector('#download');
+    const imgInput = document.querySelector('#imgFile');
     const bgImg=(event)=>{
       const fileURL = event.target.files[0]; //console.log( event.target.files[0] );
       const imgURL = URL.createObjectURL( fileURL ); // console.log(imgURL);
